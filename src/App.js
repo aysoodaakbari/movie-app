@@ -6,8 +6,8 @@ import Pagination from './components/Pagation';
 
 
 
-const API_URL="https://api.themoviedb.org/3/movie/popular?api_key=f62f750b70a8ef11dad44670cfb6aa57";
-const API_SEARCH="https://api.themoviedb.org/3/search/movie?api_key=f62f750b70a8ef11dad44670cfb6aa57&query";
+const API_URL="https://api.themoviedb.org/3/discover/movie?api_key=f62f750b70a8ef11dad44670cfb6aa57";
+const API_SEARCH="https://api.themoviedb.org/3/discover/movie?api_key=f62f750b70a8ef11dad44670cfb6aa57&query";
 
 const Container = styled.div`
   display: flex;
@@ -73,7 +73,8 @@ function App() {
 
   const [movies, setMovies]=useState([]);
   const [query, setQuery]=useState('');
-  const [currentPage, setcurrentPage]=useState('');
+  const [Page, setPage]=useState('');
+  const[totalResults,settotalResults]=useState("");
   useEffect(() => {
     fetch(API_URL)
     .then((res)=>res.json())
@@ -88,7 +89,7 @@ function App() {
     e.preventDefault();
     console.log("Searching");
     try{
-      const url=API_SEARCH+query;
+      const url=`https://api.themoviedb.org/3/search/movie?api_key=f62f750b70a8ef11dad44670cfb6aa57&query=${query}`;
       const res= await fetch(url);
       const data= await res.json();
       console.log(data);
@@ -99,16 +100,22 @@ function App() {
     }
   }
    const nextPage = async(e) => {
-    const url=API_SEARCH+currentPage;
+    const url=`https://api.themoviedb.org/3/discover/movie?api_key=f62f750b70a8ef11dad44670cfb6aa57&page=${Page}`;
       const res= await fetch(url);
       const data= await res.json();
-      setcurrentPage( data.currentPage)
+      setPage(data.Page)
     }
   
   const changeHandler=(e)=>{
     setQuery(e.target.value);
   }
-  
+  const totalhandler= async(e)=>{
+    const url=`https://api.themoviedb.org/3/discover/movie?api_key=f62f750b70a8ef11dad44670cfb6aa57&total_results=${totalResults}`;
+    const res= await fetch(url);
+    const data= await res.json();
+    settotalResults(data.total_results);
+  }
+  let numberPages = Math.floor(totalResults / 20);
   return (
 
     <Container>
@@ -135,7 +142,8 @@ function App() {
         <h2>Sorry !! No Movies Found</h2>
       )}
     </div>
-    <Pagination  pages={currentPage} nextPage={nextPage} currentPage={currentPage}/>    
+    
+    <Pagination  pages={numberPages} nextPage={nextPage} currentPage={Page}/>    
   </Container>
    /*  <>
     <Navbar bg="dark" expand="lg" variant="dark">
