@@ -2,8 +2,7 @@ import React,{useState,useEffect} from 'react';
 import './App.css';
 import styled from "styled-components";
 import MovieComponent from './components/MovieComponent';
-
-
+import Pagination from './components/Pagation';
 
 
 
@@ -74,7 +73,7 @@ function App() {
 
   const [movies, setMovies]=useState([]);
   const [query, setQuery]=useState('');
-
+  const [currentPage, setcurrentPage]=useState('');
   useEffect(() => {
     fetch(API_URL)
     .then((res)=>res.json())
@@ -89,7 +88,7 @@ function App() {
     e.preventDefault();
     console.log("Searching");
     try{
-      const url=`https://api.themoviedb.org/3/search/movie?api_key=bcc4ff10c2939665232d75d8bf0ec093&query=${query}`;
+      const url=API_SEARCH+query;
       const res= await fetch(url);
       const data= await res.json();
       console.log(data);
@@ -99,7 +98,13 @@ function App() {
       console.log(e);
     }
   }
-
+   const nextPage = async(e) => {
+    const url=API_SEARCH+currentPage;
+      const res= await fetch(url);
+      const data= await res.json();
+      setcurrentPage( data.currentPage)
+    }
+  
   const changeHandler=(e)=>{
     setQuery(e.target.value);
   }
@@ -129,7 +134,8 @@ function App() {
       ):(
         <h2>Sorry !! No Movies Found</h2>
       )}
-    </div>   
+    </div>
+    <Pagination  pages={currentPage} nextPage={nextPage} currentPage={currentPage}/>    
   </Container>
    /*  <>
     <Navbar bg="dark" expand="lg" variant="dark">
