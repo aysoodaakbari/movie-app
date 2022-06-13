@@ -3,8 +3,7 @@ import '../src/style/App.css';
 import styled from "styled-components";
 import MovieComponent from './components/MovieComponent';
 import Pagination from './components/Pagation';
-import Moviedetail from './components/Moviedetail';
-import {BrowserRouter as Router,Route,Routes ,NavLink, BrowserRouter,} from "react-router-dom";
+//import {BrowserRouter as Router,Route,Routes ,NavLink, BrowserRouter,} from "react-router-dom";
 
 
 
@@ -58,7 +57,6 @@ function App() {
 
   const [movies, setMovies]=useState([]);
   const [query, setQuery]=useState('');
-  //const [Page, setPage]=useState('');
   const[totalResults,settotalResults]=useState(0);
   const[currentPage,setcurrentPage]=useState(1);
   useEffect(() => {
@@ -102,26 +100,22 @@ function App() {
   let numberPages = Math.floor(totalResults / 20);
   //alert(numberPages);
   return (
-   <BrowserRouter>
     <Container>
-      <Head></Head>
-    <Header>
-      <SearchBox>
-        <SearchIcon src="/react-movie-app/search-icon.svg" onClick={ searchMovie} />
-        <SearchInput
-          placeholder="Search Movie"
-          value={query}
-          onChange={changeHandler}
-        />
-      </SearchBox>
-    </Header>
-    <Routes>
-    <Route exact path='/' component={App}></Route>
-</Routes>
+  
+   
+      <Head></Head><Header>
+            <SearchBox>
+              <SearchIcon src="/react-movie-app/search-icon.svg" onClick={searchMovie} />
+              <SearchInput
+                placeholder="Search Movie"
+                value={query}
+                onChange={changeHandler} />
+            </SearchBox>
+            </Header>
     <div>
-       <Routes>
-                <Route path='/moviedetail' component={Moviedetail}></Route>
-       </Routes>
+  
+                
+  
       {movies.length > 0 ?(
         <div className="container">
           <div className='grid'>
@@ -135,10 +129,15 @@ function App() {
         <h2>Sorry !! No Movies Found</h2>
       )}
     </div>
+         
     
-    <Pagination  pages={numberPages} nextPage={nextPage} currentPage={currentPage}/>
+
+    
+    
+    {totalResults > 20 ? <Pagination  pages={numberPages} nextPage={nextPage} currentPage={currentPage}/> :''}
+    
+ 
   </Container>
-  </BrowserRouter>
    
   );
 }
