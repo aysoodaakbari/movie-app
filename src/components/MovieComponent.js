@@ -1,11 +1,19 @@
-//import { Modal,show,Button} from 'react-bootstrap';
-import React, { useState } from 'react';
-import Moviedetail from "./Moviedetail.js"
+
+import React, { useState,useEffect } from 'react';
+
 import "../style/MovieComponent.css";
-//import {Link} from "react-router-dom"
+
 
 const API_IMG="https://image.tmdb.org/t/p/w500/";
-const MovieComponent =({poster_path,original_title,vote_average,release_date})=>{
+const MovieComponent =({poster_path,original_title,vote_average,release_date,overview,popularity})=>{
+ /*   const [movieInfo, setMovieInfo] = useState();
+  const { selectedMovie } = props;
+
+  useEffect(() => {
+    Axios.get(
+      `https://www.omdbapi.com/?i=${selectedMovie}&apikey=${API_KEY}`,
+    ).then((response) => setMovieInfo(response.data));
+  }, [selectedMovie]); */
 const[popup,setpopup]=useState(false);
 const HandelClickdetail=()=>
 {
@@ -25,18 +33,40 @@ const HandelClickdetail=()=>
                 <div className='row-container'>
                     <h4>IMDb: {vote_average}</h4>
                     <h5>{release_date}</h5>
+                   
                     
                 </div>
                 </div>
          {popup?   
-         <div className='main-popup'>
+    <div className='main-popup'>
          <div className='popup'>
                 <div className='popup-header'>
                     <button className='goback-btn'>Back</button>
                     <h3>{original_title}</h3>
+                   
                 </div>
+            <div className='container-body'>
+                <img className="card-img" style={{width:'14rem'}}src={API_IMG+poster_path} />
+                     <div className='div-container'>
+                        <div className='row-container'>
+                            <h4>IMDb:</h4>
+                            <h5> {vote_average}</h5>
+                        </div>
+                     
+                        <div className='row-container'>
+                      <h4>Release Date:</h4>
+                      <h5> {release_date}</h5>
+                      </div>
+                      <div className='row-container'>
+                      <h4>popularity</h4>
+                      <h5>{popularity}</h5>
+                      </div>
+                      <h4>Overview</h4>
+                      <p>{overview}</p>
+                      </div>
             </div>
-        </div>:""}
+        </div>
+    </div>:""}
            
           
         </div>

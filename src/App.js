@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import '../src/style/App.css';
 import styled from "styled-components";
 import MovieComponent from './components/MovieComponent';
-import Pagination from './components/Pagation';
+import Pagination from './components/Pagination';
 //import {BrowserRouter as Router,Route,Routes ,NavLink, BrowserRouter,} from "react-router-dom";
 
 
@@ -57,15 +57,19 @@ function App() {
 
   const [movies, setMovies]=useState([]);
   const [query, setQuery]=useState('');
-  const[totalResults,settotalResults]=useState(0);
-  const[currentPage,setcurrentPage]=useState(1);
+  //const[totalResults,settotalResults]=useState(0);
+  const[total_pages,settotal_pages]=useState(null);
+  const[currentPage,setcurrentPage]=useState(2);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     fetch(API_URL)
     .then((res)=>res.json())
     .then(data=>{
       console.log(data);
       setMovies(data.results);
+      setLoading(true);
     })
+    settotal_pages(Math.ceil(setMovies.length /5));
   }, [])
 
 
@@ -78,26 +82,25 @@ function App() {
       const data= await res.json();
       console.log(data);
       setMovies(data.results);
+      //settotalResults(data.total_results);
+      setcurrentPage(currentPage);
+      
     }
     catch(e){
       console.log(e);
     }
   }
-   const nextPage = (Page) => {
-    const url=`https://api.themoviedb.org/3/discover/movie?api_key=f62f750b70a8ef11dad44670cfb6aa57&query=${query}&page=${Page}`;
-      const res= fetch(url);
-      const data= res.json();
-      settotalResults(data.total_results);
-      setcurrentPage(data.page);
-    }
-
-
+  const handleClick = num => {
+    setcurrentPage(num);
+  }
+ 
+ console.log(currentPage);
   
   const changeHandler=(e)=>{
     setQuery(e.target.value);
   }
 
-  let numberPages = Math.floor(totalResults / 20);
+  //let numberPages = Math.floor( totalResults / 20);
   //alert(numberPages);
   return (
     <Container>
@@ -134,7 +137,7 @@ function App() {
 
     
     
-    {totalResults > 20 ? <Pagination  pages={numberPages} nextPage={nextPage} currentPage={currentPage}/> :''}
+    { loading ?  <Pagination totalPages={total_pages} handleClick={handleClick} />:""}
     
  
   </Container>
