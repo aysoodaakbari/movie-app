@@ -57,7 +57,6 @@ function App() {
 
   const [movies, setMovies]=useState([]);
   const [query, setQuery]=useState('');
-  //const[totalResults,settotalResults]=useState(0);
   const[total_pages,settotal_pages]=useState(null);
   const[currentPage,setcurrentPage]=useState(2);
   const [loading, setLoading] = useState(false);
@@ -75,14 +74,14 @@ function App() {
 
   const searchMovie = async(e)=>{
     e.preventDefault();
-    console.log("Searching");
+   // console.log("hello");
     try{
       const url=`https://api.themoviedb.org/3/search/movie?api_key=f62f750b70a8ef11dad44670cfb6aa57&query=${query}&page=${currentPage}`;
       const res= await fetch(url);
       const data= await res.json();
       console.log(data);
       setMovies(data.results);
-      //settotalResults(data.total_results);
+     
       setcurrentPage(currentPage);
       
     }
@@ -94,14 +93,12 @@ function App() {
     setcurrentPage(num);
   }
  
- console.log(currentPage);
+
   
   const changeHandler=(e)=>{
     setQuery(e.target.value);
   }
 
-  //let numberPages = Math.floor( totalResults / 20);
-  //alert(numberPages);
   return (
     <Container>
   

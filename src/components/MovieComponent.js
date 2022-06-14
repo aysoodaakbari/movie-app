@@ -1,30 +1,38 @@
 
 import React, { useState,useEffect } from 'react';
+import Axios from "axios";
 
 import "../style/MovieComponent.css";
 
 
 const API_IMG="https://image.tmdb.org/t/p/w500/";
-const MovieComponent =({poster_path,original_title,vote_average,release_date,overview,popularity})=>{
- /*   const [movieInfo, setMovieInfo] = useState();
-  const { selectedMovie } = props;
-
+const MovieComponent =({poster_path,original_title,vote_average,release_date,overview,popularity,id})=>{
+ /*  const [movieInfo, setMovieInfo] = useState();
+  const selectedMovie = id;
+ 
   useEffect(() => {
     Axios.get(
-      `https://www.omdbapi.com/?i=${selectedMovie}&apikey=${API_KEY}`,
+      `https://api.themoviedb.org/3/movie/${selectedMovie}/credits?api_key=f62f750b70a8ef11dad44670cfb6aa57&language=en-US`,
     ).then((response) => setMovieInfo(response.data));
-  }, [selectedMovie]); */
+      
+  }, [selectedMovie]); 
+  
+  console.log(movieInfo?.cast.popularity); */
 const[popup,setpopup]=useState(false);
-const HandelClickdetail=()=>
+const HandelClickdetailopen=()=>
 {
     setpopup(!popup);
+}
+const HandelClickdetailclose=()=>
+{
+    setpopup(false);
 }
     return(
         
 
      <div className="cardContainer" >
         
-            <div className="card-body" onClick={HandelClickdetail}  >
+            <div className="card-body" onClick={HandelClickdetailopen}  >
            
 
          <img className="coverimg" alt='a' src={API_IMG + poster_path} />
@@ -41,7 +49,7 @@ const HandelClickdetail=()=>
     <div className='main-popup'>
          <div className='popup'>
                 <div className='popup-header'>
-                    <button className='goback-btn'>Back</button>
+                    <button className='goback-btn' onClick={HandelClickdetailclose}>Back</button>
                     <h3>{original_title}</h3>
                    
                 </div>
