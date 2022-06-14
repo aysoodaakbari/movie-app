@@ -18,7 +18,7 @@ const Container = styled.div`
 const Head = styled.div`
 width:100%;
 height:40px;
-background-color:#1f2630;
+background-color:#129600;
 `;
 const Header = styled.div`
   background-color:#abadaa;
@@ -41,7 +41,7 @@ const SearchBox = styled.div`
 `;
 const Searchbutton = styled.button`
 position: relative;
-background-color: black;
+background-color: #0a56c7;
 border-radius: 4em;
 font-size: 16px;
 color: white;
@@ -50,13 +50,14 @@ cursor:pointer;
 user-select:none;
 text-align: center;
 text-decoration: none;
+border: none;
 cursor: pointer;
 transition-duration: 0.4s;
 -webkit-transition-duration: 0.4s;
 &:hover
 {
   transition-duration: 0.1s;
-  background-color: #3A3A3A;
+  background-color:#455c80;
 }
 &:after {
   content: "";
