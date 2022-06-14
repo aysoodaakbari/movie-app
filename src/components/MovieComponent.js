@@ -1,23 +1,13 @@
 
-import React, { useState,useEffect } from 'react';
-import Axios from "axios";
+import React, { useState} from 'react';
+
 
 import "../style/MovieComponent.css";
 
 
 const API_IMG="https://image.tmdb.org/t/p/w500/";
 const MovieComponent =({poster_path,original_title,vote_average,release_date,overview,popularity,id})=>{
- /*  const [movieInfo, setMovieInfo] = useState();
-  const selectedMovie = id;
  
-  useEffect(() => {
-    Axios.get(
-      `https://api.themoviedb.org/3/movie/${selectedMovie}/credits?api_key=f62f750b70a8ef11dad44670cfb6aa57&language=en-US`,
-    ).then((response) => setMovieInfo(response.data));
-      
-  }, [selectedMovie]); 
-  
-  console.log(movieInfo?.cast.popularity); */
 const[popup,setpopup]=useState(false);
 const HandelClickdetailopen=()=>
 {
