@@ -1,9 +1,10 @@
 import React,{useState,useEffect} from 'react';
+import { Route } from 'react-router-dom';
 import '../src/style/App.css';
 import styled from "styled-components";
 import MovieComponent from './components/MovieComponent';
 import Pagination from './components/Pagination';
-//import {BrowserRouter as Router,Route,Routes ,NavLink, BrowserRouter,} from "react-router-dom";
+
 
 
 
@@ -96,8 +97,8 @@ function App() {
 
   const [movies, setMovies]=useState([]);
   const [query, setQuery]=useState('');
-  const[total_pages,settotal_pages]=useState(null);
-  const[currentPage,setcurrentPage]=useState(2);
+  const[perpage]=useState(20);
+  const[currentPage,setcurrentPage]=useState(1);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     fetch(API_URL)
@@ -107,14 +108,13 @@ function App() {
       setMovies(data.results);
       setLoading(true);
     })
-    settotal_pages(Math.ceil(setMovies.length /5));
   }, [])
 
 
   const searchMovie = async(e)=>{
     e.preventDefault();
     try{
-      const url=`https://api.themoviedb.org/3/search/movie?api_key=f62f750b70a8ef11dad44670cfb6aa57&query=${query}&page=${currentPage}`;
+      const url=`https://api.themoviedb.org/3/search/movie?api_key=f62f750b70a8ef11dad44670cfb6aa57`;
       const res= await fetch(url);
       const data= await res.json();
       console.log(data);
@@ -128,9 +128,11 @@ function App() {
       console.log(e);
     }
   }
-  const handleClick = num => {
-    setcurrentPage(num);
-  }
+const lastmovie=currentPage*perpage;
+const firstmovie=lastmovie-perpage;
+const currentmovie=movies.slice(firstmovie,lastmovie);
+//console.log(currentmovie);
+
  
 
   
@@ -158,6 +160,7 @@ function App() {
       {movies.length > 0 ?(
         <div className="container">
           <div className='grid'>
+            
           {movies.map((movieReq)=>
           <MovieComponent key={movieReq.id} {...movieReq}/>)}
           </div>
@@ -168,12 +171,13 @@ function App() {
         <h2>Sorry !! No Movies Found</h2>
       )}
     </div>
+    <Pagination perpage={perpage} totalpost={movies.length} paginate={(pagenumber)=>setcurrentPage(pagenumber)}></Pagination>
          
     
 
     
     
-    { loading ?  <Pagination totalPages={total_pages} handleClick={handleClick} />:""}
+   
     
  
   </Container>
